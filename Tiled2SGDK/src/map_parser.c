@@ -4,45 +4,6 @@
 #include "list.h"
 #include "map_parser.h"
 
-typedef struct _layerJSON LayerJSON;
-typedef struct _tilesetJSON TilesetJSON;
-typedef struct _mapJSON MapJSON;
-
-
-struct _layerJSON
-{
-	u8 *name;
-	u8 *type;
-    u16 w;
-    u16 h;
-    u16 x;
-    u16 y;
-    list data;
-
-};
-
-struct _tilesetJSON
-{
-    u8 *name;
-    u8 *image;
-    u16 firstGid;
-    u16 pw;
-    u16 ph;
-    u16 tw;
-    u16 th;
-    u16 tcount;
-};
-
-struct _mapJSON
-{
-    u16 w;
-    u16 h;
-    u16 tw;
-    u16 th;
-    list layers;
-    list tilesets;
-};
-
 /*
  * Takes a JSON string <json> starting from the beginning of a string value and returns that value
  *
