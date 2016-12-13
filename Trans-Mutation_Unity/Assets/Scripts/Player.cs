@@ -4,12 +4,12 @@ using System.Collections;
 [RequireComponent (typeof (Controller2D))]
 public class Player : MonoBehaviour {
 
-	public float maxJumpHeight = 4;
-	public float minJumpHeight = 1;
+	public float maxJumpHeight = .4f;
+	public float minJumpHeight = .1f;
 	public float timeToJumpApex = .4f;
-	float accelerationTimeAirborne = .2f;
-	float accelerationTimeGrounded = .1f;
-	float moveSpeed = 12;
+	float accelerationTimeAirborne = .02f;
+	float accelerationTimeGrounded = .01f;
+	public float moveSpeed = 1f;
 
 	public Vector2 wallJumpClimb;
 	public Vector2 wallJumpOff;
@@ -32,6 +32,10 @@ public class Player : MonoBehaviour {
 	int wallDirX;
 
 	Animator animator;
+
+	bool facingRight = true;
+
+	public Transform firePoint;
 
 	void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -60,6 +64,11 @@ public class Player : MonoBehaviour {
 		//Animator
 		animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
 		animator.SetBool("grounded", controller.collisions.below);
+
+		//Direction
+		if (directionalInput.x < 0 && facingRight || directionalInput.x > 0 && !facingRight){
+			Flip();
+		}
 	}
 
 	public void SetDirectionalInput (Vector2 input) {
@@ -133,5 +142,20 @@ public class Player : MonoBehaviour {
 		float targetVelocityX = directionalInput.x * moveSpeed;
 		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
 		velocity.y += gravity * Time.deltaTime;
+	}
+
+	public void Flip()
+	{
+		// Switch the way the player is labelled as facing.
+		facingRight = !facingRight;
+		
+		// Multiply the player's x local scale by -1.
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
+	}
+
+	public bool IsFacingRight(){
+		return facingRight;
 	}
 }

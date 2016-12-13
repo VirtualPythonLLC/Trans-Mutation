@@ -46,11 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Controller2D.cs" />
+     <Compile Include="Assets\Scripts\DestroyObject.cs" />
      <Compile Include="Assets\Scripts\PlatformController.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerInput.cs" />
+     <Compile Include="Assets\Scripts\PlayerWeapon.cs" />
      <Compile Include="Assets\Scripts\RaycastController.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SortingLayerExposed.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileAnimator.cs" />
@@ -58,6 +61,7 @@
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TiledMap.cs" />
      <None Include="Assets\Tiled2Unity\Prefabs\_ReadMe.txt" />
      <None Include="Assets\Tiled2Unity\Shaders\shaTiledMap.shader" />
+     <None Include="Assets\Tiled2Unity\Imported\levelclosed.tiled2unity.xml" />
      <None Include="Assets\Tiled2Unity\Tiled2Unity.export.txt" />
      <None Include="Assets\Tiled2Unity\Imported\level1.tiled2unity.xml" />
      <None Include="Assets\Tiled2Unity\Materials\_ReadMe.txt" />
