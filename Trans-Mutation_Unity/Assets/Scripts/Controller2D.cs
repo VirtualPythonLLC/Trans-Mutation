@@ -39,7 +39,8 @@ public class Controller2D : RaycastController {
 			VerticalCollisions (ref moveAmount);
 		}
 
-		transform.Translate (moveAmount);
+		transform.Translate (moveAmount, null);
+		//transform.position = new Vector2(transform.position.x + moveAmount.x,transform.position.y + moveAmount.y);
 
 		if (standingOnPlatform) {
 			collisions.below = true;
@@ -216,6 +217,10 @@ public class Controller2D : RaycastController {
 			}
 		}
 
+	}
+
+	public bool HasCollisions(){
+		return (collisions.above || collisions.below || collisions.left || collisions.right);
 	}
 
 	void ResetFallingThroughPlatform() {

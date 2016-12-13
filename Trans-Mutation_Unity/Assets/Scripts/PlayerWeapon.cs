@@ -15,11 +15,29 @@ public class PlayerWeapon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Player p = transform.root.GetComponent<Player>();
-		if (p.IsFacingRight())
-			Debug.Log("todo bien");
+
 		if (Input.GetAxisRaw("Fire1") > 0 && Time.time > nextProjectile){
 			nextProjectile = Time.time + shootTimer;
-			projectile.GetComponent<Bullet>().dir = p.IsFacingRight();
+			if (Input.GetAxisRaw("Vertical") > 0){
+				if (p.IsFacingRight())
+					projectile.GetComponent<Bullet>().dir = new Vector2(0.65f,0.65f);
+				else
+					projectile.GetComponent<Bullet>().dir = new Vector2(-0.65f,0.65f);
+			} else{
+				if (Input.GetAxisRaw("Vertical") < 0){
+					if (p.IsFacingRight())
+						projectile.GetComponent<Bullet>().dir = new Vector2(0.65f,-0.65f);
+					else
+						projectile.GetComponent<Bullet>().dir = new Vector2(-0.65f,-0.65f);
+				}
+				else{
+					if (p.IsFacingRight())
+						projectile.GetComponent<Bullet>().dir = new Vector2(1,0);
+					else
+						projectile.GetComponent<Bullet>().dir = new Vector2(-1,0);
+				}
+			} 
+
 			Instantiate(projectile, transform.position, transform.rotation);
 		}
 	}

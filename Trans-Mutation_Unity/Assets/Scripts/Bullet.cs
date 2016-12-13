@@ -5,15 +5,20 @@ public class Bullet : MonoBehaviour {
 
 	public float range = 10f;
 	public float damage = 5f;
-	public bool dir;
-	Ray shootRay;
+	public Vector2 dir;
+	public float aliveTime;
+
+	/*Ray shootRay;
 	RaycastHit shootHit;
 	int shootableMask;
-	LineRenderer gunLine;
+	LineRenderer gunLine;*/
+
+	Controller2D controller;
+
 	
 	// Use this for initialization
 	void Start () {
-	
+		controller = GetComponent<Controller2D> ();
 	}
 
 	void Awake (){
@@ -29,17 +34,39 @@ public class Bullet : MonoBehaviour {
 		} else{
 			gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
 		}*/
+		Vector3 scale = transform.localScale;
+
+		if (dir.x < 0){
+			scale.x *= -1;
+			if (dir.y < 0){
+				transform.rotation = Quaternion.Euler(0,0,45);
+			}
+			if (dir.y > 0){
+				transform.rotation = Quaternion.Euler(0,0,-45);
+			}
+		}
+		if (dir.x > 0){
+			if (dir.y < 0){
+				transform.rotation = Quaternion.Euler(0,0,-45);
+			}
+			if (dir.y > 0){
+				transform.rotation = Quaternion.Euler(0,0,45);
+			}
+		}
+		transform.localScale = scale;
+
+		Destroy (gameObject, aliveTime);
 	}
 	
 
 	// Update is called once per frame
 	void Update () {
-		if (dir){
-			transform.position = new Vector3(transform.position.x + 0.04f,transform.position.y, transform.position.z);
-		}
-		else{
-			transform.position = new Vector3(transform.position.x - 0.04f,transform.position.y, transform.position.z);
-		}
+		//check collision
+		if (controller.HasCollisions())
+			Destroy (gameObject);
+		//move
+		controller.Move (dir * 0.04f, false);
+		//transform.position = new Vector3(transform.position.x + 0.04f * dir.x,transform.position.y + 0.04f * dir.y, transform.position.z);
 	}
 	
 }
