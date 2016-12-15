@@ -158,4 +158,8 @@ public class Player : MonoBehaviour {
 	public bool IsFacingRight(){
 		return facingRight;
 	}
+
+	public Controller2D GetController(){
+		return controller;
+	}
 }

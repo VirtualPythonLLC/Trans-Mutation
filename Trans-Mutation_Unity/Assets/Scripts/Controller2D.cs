@@ -9,6 +9,7 @@ public class Controller2D : RaycastController {
 	[HideInInspector]
 	public Vector2 playerInput;
 
+
 	public override void Start() {
 		base.Start ();
 		collisions.faceDir = 1;
@@ -60,10 +61,9 @@ public class Controller2D : RaycastController {
 			rayOrigin += Vector2.up * (horizontalRaySpacing * i);
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
 
-			Debug.DrawRay(rayOrigin, Vector2.right * directionX,Color.red);
+			Debug.DrawRay(rayOrigin, Vector2.right * directionX * 0.2f,Color.red);
 
 			if (hit) {
-
 				if (hit.distance == 0) {
 					continue;
 				}
@@ -109,10 +109,10 @@ public class Controller2D : RaycastController {
 			rayOrigin += Vector2.right * (verticalRaySpacing * i + moveAmount.x);
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
 
-			Debug.DrawRay(rayOrigin, Vector2.up * directionY,Color.red);
+			Debug.DrawRay(rayOrigin, Vector2.up * directionY * 0.2f,Color.red);
 
 			if (hit) {
-				if (hit.collider.tag == "Through") {
+				if (hit.collider.tag == "Through" && transform.tag == "Player") {
 					if (directionY == 1 || hit.distance == 0) {
 						continue;
 					}

@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour {
 
 	public float range = 10f;
 	public float damage = 5f;
+	public float speed = 0.07f;
 	public Vector2 dir;
 	public float aliveTime;
 
@@ -65,8 +66,9 @@ public class Bullet : MonoBehaviour {
 		if (controller.HasCollisions())
 			Destroy (gameObject);
 		//move
-		controller.Move (dir * 0.04f, false);
+		controller.Move (dir * speed, false);
 		//transform.position = new Vector3(transform.position.x + 0.04f * dir.x,transform.position.y + 0.04f * dir.y, transform.position.z);
 	}
+	void Hola(){}
 	
 }
