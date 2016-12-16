@@ -36,9 +36,9 @@ public class Controller2D : RaycastController {
 		}
 
 		HorizontalCollisions (ref moveAmount);
-		if (moveAmount.y != 0) {
+		//if (moveAmount.y != 0) {
 			VerticalCollisions (ref moveAmount);
-		}
+		//}
 
 		transform.Translate (moveAmount, null);
 		//transform.position = new Vector2(transform.position.x + moveAmount.x,transform.position.y + moveAmount.y);
@@ -124,6 +124,10 @@ public class Controller2D : RaycastController {
 						Invoke("ResetFallingThroughPlatform",.5f);
 						continue;
 					}
+				}
+
+				if (hit.collider.tag == "Enemy" && transform.tag == "Player") {
+					transform.GetComponent<Player>().TakeDamage(hit.transform.GetComponent<Enemy>().GetDamage());
 				}
 
 				moveAmount.y = (hit.distance - skinWidth) * directionY;

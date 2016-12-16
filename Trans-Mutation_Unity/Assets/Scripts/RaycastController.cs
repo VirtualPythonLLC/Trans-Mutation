@@ -44,13 +44,13 @@ public class RaycastController : MonoBehaviour {
 		Bounds bounds = collider.bounds;
 		bounds.Expand (skinWidth * -2);
 
-		float boundsWidth = bounds.size.x;
-		float boundsHeight = bounds.size.y;
+		float boundsWidth = bounds.size.x + 0.4f;
+		float boundsHeight = bounds.size.y + 0.4f;
 		
-		//horizontalRayCount = Mathf.RoundToInt (boundsHeight / dstBetweenRays);
-		//verticalRayCount = Mathf.RoundToInt (boundsWidth / dstBetweenRays);
-		horizontalRayCount = 2;
-		verticalRayCount = 2;
+		horizontalRayCount = Mathf.RoundToInt (boundsHeight / dstBetweenRays);
+		verticalRayCount = Mathf.RoundToInt (boundsWidth / dstBetweenRays);
+		//horizontalRayCount = 2;
+		//verticalRayCount = 2;
 		
 		horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
 		verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);

@@ -36,6 +36,9 @@ public class Player : MonoBehaviour {
 	bool facingRight = true;
 
 	public Transform firePoint;
+	public int health;
+	float deathTimer = 5f;
+	bool dead;
 
 	void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -68,6 +71,14 @@ public class Player : MonoBehaviour {
 		//Direction
 		if (directionalInput.x < 0 && facingRight || directionalInput.x > 0 && !facingRight){
 			Flip();
+		}
+
+		//Damage
+		if (health <= 0){
+			Debug.Log ("Game over");
+			animator.SetBool("dead", true);
+			dead = true;
+			Destroy(gameObject, deathTimer);
 		}
 	}
 
@@ -161,5 +172,13 @@ public class Player : MonoBehaviour {
 
 	public Controller2D GetController(){
 		return controller;
+	}
+
+	public void TakeDamage(int d){
+		health -= d;
+	}
+
+	public bool isDead(){
+		return dead;
 	}
 }

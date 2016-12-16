@@ -5,6 +5,7 @@ using System.Collections;
 public class LevelButton : MonoBehaviour {
 
 	ButtonController controller;
+	public GameObject triggeredObject;
 	// Use this for initialization
 	void Start () {
 		controller = GetComponent<ButtonController> ();
@@ -17,6 +18,15 @@ public class LevelButton : MonoBehaviour {
 	}
 
 	public void Press() {
-		Debug.Log("button pressed");
+		if (triggeredObject.layer == LayerMask.NameToLayer("Ground"))
+			triggeredObject.layer = LayerMask.NameToLayer("Ignore");
+		else
+			triggeredObject.layer = LayerMask.NameToLayer("Ground");
+		/*
+		if (triggeredObject.activeInHierarchy)
+			triggeredObject.SetActive(false);
+		else
+			triggeredObject.SetActive(true);
+		*/
 	}
 }
