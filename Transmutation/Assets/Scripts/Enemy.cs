@@ -4,12 +4,14 @@ using System.Collections;
 [RequireComponent (typeof (Controller2D))]
 public class Enemy : MonoBehaviour {
 
-	public int health;
-	public int damage;
+	public float health;
+	public float damage;
 	public float gravity;
 	public float moveSpeed = 1f;
 	public float minJumpVelocity = 1f;
 	public float maxJumpVelocity = 2f;
+	public float movementRangeX;
+	public float movementRangeY;
 
 	Vector3 velocity;
 	float velocityXSmoothing;
@@ -17,21 +19,27 @@ public class Enemy : MonoBehaviour {
 	Controller2D controller;	
 	Vector2 direction;	
 	Animator animator;
-	
+
 	bool facingRight = true;
+	Vector2 initPos;
 	
 	public Transform firePoint;
+
+	bool dead;
+	float deathTimer = 1f;
 	
 	void Start() {
 		controller = GetComponent<Controller2D> ();
 		animator = GetComponent<Animator>();
 		direction = Vector2.right;
+		initPos = transform.position;
 	}
-	
+
 	void Update() {
 		CalculateVelocity ();
 
-		controller.Move (velocity * Time.deltaTime, direction);
+		if(!dead)
+			controller.Move (velocity * Time.deltaTime, direction);
 		
 		if (controller.collisions.above || controller.collisions.below) {
 			velocity.y = 0;
@@ -42,9 +50,27 @@ public class Enemy : MonoBehaviour {
 		//animator.SetBool("grounded", controller.collisions.below);
 		
 		//Direction
-		if (!controller.collidesWithPlayer() && (controller.collisions.left || controller.collisions.right)){
+		if (!controller.collidesWithBullet() && !controller.collidesWithPlayer() && 
+			(controller.collisions.left || controller.collisions.right) ||
+			(movementRangeX != 0 && (transform.position.x >= initPos.x + movementRangeX || transform.position.x <= initPos.x - movementRangeX))){
 			Flip();
-			direction *= -1; 
+			direction *= -1;
+		}
+
+		//Damage
+		if (controller.collidesWithBullet() && controller.getHitObject()) {
+			Bullet b = controller.getHitObject().GetComponent<Bullet>();
+			if (b)
+				TakeDamage(b.GetDamage());
+			//Knockback
+			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
+		}
+
+		//Death
+		if (health <= 0){
+			//animator.SetBool("dead", true);
+			dead = true;
+			Destroy(gameObject, deathTimer);
 		}
 	}
 
@@ -85,7 +111,11 @@ public class Enemy : MonoBehaviour {
 		return controller;
 	}
 
-	public int GetDamage(){
+	public float GetDamage(){
 		return damage;
+	}
+
+	public void TakeDamage(float d){
+		health -= d;
 	}
 }

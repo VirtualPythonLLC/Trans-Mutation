@@ -36,9 +36,11 @@ public class Player : MonoBehaviour {
 	bool facingRight = true;
 
 	public Transform firePoint;
-	public int health;
+	public float health;
 	float deathTimer = 5f;
 	bool dead;
+	float invincibleTime = 1f;
+	float invincibleTimer;
 
 	public static bool stopPlayer;
 
@@ -76,14 +78,16 @@ public class Player : MonoBehaviour {
 		}
 
 		//Damage
-		if (controller.collidesWithEnemy()) {
+		if (controller.collidesWithEnemy() && Time.time > invincibleTimer) {
 			Enemy e = controller.getHitObject().GetComponent<Enemy>();
-			TakeDamage(e.GetDamage());
+			if (e)
+				TakeDamage(e.GetDamage());
+			invincibleTimer = Time.time + invincibleTime;
 			//Knockback
 			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
 		}
 
-		//Damage
+		//Death
 		if (health <= 0){
 			Debug.Log ("Game over");
 			//animator.SetBool("dead", true);
@@ -185,7 +189,7 @@ public class Player : MonoBehaviour {
 		return controller;
 	}
 
-	public void TakeDamage(int d){
+	public void TakeDamage(float d){
 		health -= d;
 	}
 

@@ -69,6 +69,9 @@ public class Bullet : MonoBehaviour {
 		controller.Move (dir * speed, false);
 		//transform.position = new Vector3(transform.position.x + 0.04f * dir.x,transform.position.y + 0.04f * dir.y, transform.position.z);
 	}
-	void Hola(){}
+
+	public float GetDamage(){
+		return damage;
+	}
 	
 }

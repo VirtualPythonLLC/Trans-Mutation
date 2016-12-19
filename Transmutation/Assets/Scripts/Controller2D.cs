@@ -98,11 +98,13 @@ public class Controller2D : RaycastController {
 					collisions.left = directionX == -1;
 					collisions.right = directionX == 1;
 				}
+					
+				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
 
-
-				collisions.enemy = hit.collider.tag == "Enemy";
-				collisions.player = hit.collider.tag == "Player";
-				hitObject = hit.transform;
+				if (hit.collider.tag != "Untagged")
+					hitObject = hit.transform;
 			}
 		}
 	}
@@ -144,9 +146,12 @@ public class Controller2D : RaycastController {
 				collisions.below = directionY == -1;
 				collisions.above = directionY == 1;
 
-				collisions.enemy = hit.collider.tag == "Enemy";
-				collisions.player = hit.collider.tag == "Player";
-				hitObject = hit.transform;
+				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
+
+				if (hit.collider.tag != "Untagged")
+					hitObject = hit.transform;
 			}
 		}
 
@@ -241,6 +246,10 @@ public class Controller2D : RaycastController {
 
 	public bool collidesWithPlayer(){
 		return collisions.player;
+	}
+
+	public bool collidesWithBullet(){
+		return collisions.bullet;
 	}
 
 	public Transform getHitObject(){
