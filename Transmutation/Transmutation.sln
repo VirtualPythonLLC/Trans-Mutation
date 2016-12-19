@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{F11FB43B-55B4-F355-5E1B-E6F4A9917163}") = "Transmutation", "Assembly-CSharp.csproj", "{F3E4D587-195E-ABD9-403F-EAE51093C216}"
+EndProject
+Project("{F11FB43B-55B4-F355-5E1B-E6F4A9917163}") = "Transmutation", "Assembly-CSharp-Editor.csproj", "{4F3F5B48-5EA3-C867-B944-EBF1E8E5EE76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3E4D587-195E-ABD9-403F-EAE51093C216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E4D587-195E-ABD9-403F-EAE51093C216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E4D587-195E-ABD9-403F-EAE51093C216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E4D587-195E-ABD9-403F-EAE51093C216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F3F5B48-5EA3-C867-B944-EBF1E8E5EE76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F3F5B48-5EA3-C867-B944-EBF1E8E5EE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F3F5B48-5EA3-C867-B944-EBF1E8E5EE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F3F5B48-5EA3-C867-B944-EBF1E8E5EE76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
