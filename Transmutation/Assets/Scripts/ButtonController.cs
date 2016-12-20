@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * ButtonController
+ * 
+ * Controller for switches (buttons, levers, etc), special treatment for collisions
+*/
+
 public class ButtonController : RaycastController {
 		
 

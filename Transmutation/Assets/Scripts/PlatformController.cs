@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ * PlatformController
+ * 
+ * Special controller for the platform behaviours
+*/
 public class PlatformController : RaycastController {
 
 	public LayerMask passengerMask;

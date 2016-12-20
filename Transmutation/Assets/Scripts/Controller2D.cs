@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Controller2D
+ * 
+ * Controller for Player,Enemies and Bullets, handles movement and collisions
+*/
 public class Controller2D : RaycastController {
 
 	public float maxSlopeAngle = 80;
@@ -44,7 +49,7 @@ public class Controller2D : RaycastController {
 		}
 
 		transform.Translate (moveAmount, null);
-		//transform.position = new Vector2(transform.position.x + moveAmount.x,transform.position.y + moveAmount.y);
+		// transform.position = new Vector2(transform.position.x + moveAmount.x,transform.position.y + moveAmount.y);
 
 		if (standingOnPlatform) {
 			collisions.below = true;

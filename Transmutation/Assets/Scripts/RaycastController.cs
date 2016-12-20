@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * RayCastController
+ * 
+ * Handles RayCast for collision detection
+*/
 [RequireComponent (typeof (BoxCollider2D))]
 public class RaycastController : MonoBehaviour {
 

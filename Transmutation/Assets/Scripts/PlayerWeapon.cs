@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * PlayerWeapon
+ * 
+ * Handles the Player weapon functionality, i.e shooting
+*/
 public class PlayerWeapon : MonoBehaviour {
 
 	public GameObject projectile;

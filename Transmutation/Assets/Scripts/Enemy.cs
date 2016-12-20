@@ -1,35 +1,48 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Enemy
+ * 
+ * Main script for enemies, handles stats and physic attributes
+*/
 [RequireComponent (typeof (Controller2D))]
 public class Enemy : MonoBehaviour {
 
+	//Stats
 	public float health;
 	public float damage;
+
+	// Physics
 	public float gravity;
 	public float moveSpeed = 1f;
 	public float minJumpVelocity = 1f;
 	public float maxJumpVelocity = 2f;
+	Vector3 velocity;
+	float velocityXSmoothing;
+
+	//IA
+	Vector2 initPos;
 	public float movementRangeX;
 	public float movementRangeY;
 
-	Vector3 velocity;
-	float velocityXSmoothing;
-	
+	//Controller
 	Controller2D controller;	
-	Vector2 direction;	
+	Vector2 direction;
+	bool facingRight = true;
+
+	// Animator
 	Animator animator;
 
-	bool facingRight = true;
-	Vector2 initPos;
-	
+	// Other Components
 	public Transform firePoint;
+	SpriteRenderer sprite;
+	Color color;
 
+	// Utils
 	bool dead;
 	float deathTimer = 1f;
 
-	SpriteRenderer sprite;
-	Color color;
 	
 	void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -50,7 +63,7 @@ public class Enemy : MonoBehaviour {
 			velocity.y = 0;
 		}
 
-		//Direction
+		// Direction
 		if (!controller.collidesWithBullet() && !controller.collidesWithPlayer() && 
 			(controller.collisions.left || controller.collisions.right) ||
 			(movementRangeX != 0 && (transform.position.x >= initPos.x + movementRangeX || transform.position.x <= initPos.x - movementRangeX))){
@@ -63,11 +76,11 @@ public class Enemy : MonoBehaviour {
 		//Sprte state
 		sprite.color = color;
 
-		//Animator
+		// Animator
 		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
 		//animator.SetBool("grounded", controller.collisions.below);
 
-		//Damage
+		// Damage
 		/*if (controller.collidesWithBullet() && controller.getHitObject()) {
 			Bullet b = controller.getHitObject().GetComponent<Bullet>();
 			if (b){
@@ -78,7 +91,7 @@ public class Enemy : MonoBehaviour {
 			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
 		}*/
 
-		//Death
+		// Death
 		if (health <= 0){
 			//animator.SetBool("dead", true);
 			dead = true;

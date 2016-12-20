@@ -1,47 +1,64 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Player
+ * 
+ * Main Player script, has all the stats and physic properties of player
+*/
 [RequireComponent (typeof (Controller2D))]
 public class Player : MonoBehaviour {
 
+	// Jumping
 	public float maxJumpHeight = .4f;
 	public float minJumpHeight = .1f;
 	public float timeToJumpApex = .4f;
+
+	// Acceleration
 	float accelerationTimeAirborne = .02f;
 	float accelerationTimeGrounded = .01f;
-	public float moveSpeed = 1f;
 
+	// Wall Jumping
 	public Vector2 wallJumpClimb;
 	public Vector2 wallJumpOff;
 	public Vector2 wallLeap;
 
+	// Wall Sliding
 	public float wallSlideSpeedMax = 3;
 	public float wallStickTime = .25f;
 	float timeToWallUnstick;
+	bool wallSliding;
+	int wallDirX;
 
+	// Velocity
+	public float moveSpeed = 1f;
 	float gravity;
 	float maxJumpVelocity;
 	float minJumpVelocity;
 	Vector2 velocity;
 	float velocityXSmoothing;
 
+	// Controller
 	Controller2D controller;
-
 	Vector2 directionalInput;
-	bool wallSliding;
-	int wallDirX;
-
-	//Animator animator;
-
 	bool facingRight = true;
 
+	// Animator
+	// Animator animator;
+
+	// Other Components
 	public Transform firePoint;
+	SpriteRenderer sprite;
+
+	// Stats
 	public float health;
+
+	// Utils
 	float deathTimer = 5f;
 	bool dead;
 	float invincibleTime = 1.5f;
 	float invincibleTimer;
-	SpriteRenderer sprite;
+
 
 	public static bool stopPlayer;
 
@@ -53,7 +70,7 @@ public class Player : MonoBehaviour {
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 		minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight);
 
-		//animator = GetComponent<Animator>();
+		// animator = GetComponent<Animator>();
 	}
 
 	void FixedUpdate(){
@@ -70,14 +87,14 @@ public class Player : MonoBehaviour {
 			}
 		}
 
-		//Direction
+		// Direction
 		if (directionalInput.x < 0 && facingRight || directionalInput.x > 0 && !facingRight){
 			Flip();
 		}
 	}
 
 	void Update() {
-		//Sprite state
+		// Sprite state
 		if (Time.time < invincibleTimer - invincibleTime*0.9f)
 			sprite.color = Color.red;
 		else
@@ -86,9 +103,9 @@ public class Player : MonoBehaviour {
 			else
 				sprite.color = Color.white;
 
-		//Animator
-		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
-		//animator.SetBool("grounded", controller.collisions.below);
+		// Animator
+		// animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
+		// animator.SetBool("grounded", controller.collisions.below);
 
 		//Damage
 		if (!dead && controller.collidesWithEnemy() && Time.time > invincibleTimer && controller.getHitObject()) {
@@ -97,14 +114,14 @@ public class Player : MonoBehaviour {
 				TakeDamage(e.GetDamage());
 				invincibleTimer = Time.time + invincibleTime;
 			}
-			//Knockback
-			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
+			// Knockback
+			// controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
 		}
 
-		//Death
+		// Death
 		if (health <= 0){
 			Debug.Log ("Game over");
-			//animator.SetBool("dead", true);
+			// animator.SetBool("dead", true);
 			dead = true;
 			Destroy(gameObject, deathTimer);
 		}
