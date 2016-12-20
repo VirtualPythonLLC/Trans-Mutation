@@ -5,6 +5,7 @@ public class PlayerWeapon : MonoBehaviour {
 
 	public GameObject projectile;
 	public float shootTimer = 0.15f;
+	float diagonalAngle = 0.65f;
 
 	float nextProjectile;
 	// Use this for initialization
@@ -13,30 +14,35 @@ public class PlayerWeapon : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		Player p = transform.root.GetComponent<Player>();
 
 		if (Input.GetAxisRaw("Fire1") > 0 && Time.time > nextProjectile){
 			nextProjectile = Time.time + shootTimer;
-			if (Input.GetAxisRaw("Vertical") > 0){
-				if (p.IsFacingRight())
-					projectile.GetComponent<Bullet>().dir = new Vector2(0.65f,0.65f);
+
+			//Direction
+			if (Input.GetAxisRaw("Vertical") > 0)
+				if (Input.GetAxisRaw("Horizontal") > 0) //upright
+					projectile.GetComponent<Bullet>().dir = new Vector2(diagonalAngle,diagonalAngle);
+				else 
+					if (Input.GetAxisRaw("Horizontal") < 0) //upleft
+						projectile.GetComponent<Bullet>().dir = new Vector2(-diagonalAngle,diagonalAngle);
+					else //up
+						projectile.GetComponent<Bullet>().dir = new Vector2(0,1);
+			else
+				if (Input.GetAxisRaw("Vertical") < 0)
+					if (Input.GetAxisRaw("Horizontal") > 0) //downright
+						projectile.GetComponent<Bullet>().dir = new Vector2(diagonalAngle,-diagonalAngle);
+					else 
+						if (Input.GetAxisRaw("Horizontal") < 0) //downleft
+							projectile.GetComponent<Bullet>().dir = new Vector2(-diagonalAngle,-diagonalAngle);
+						else //down
+							projectile.GetComponent<Bullet>().dir = new Vector2(0,-1);
 				else
-					projectile.GetComponent<Bullet>().dir = new Vector2(-0.65f,0.65f);
-			} else{
-				if (Input.GetAxisRaw("Vertical") < 0){
-					if (p.IsFacingRight())
-						projectile.GetComponent<Bullet>().dir = new Vector2(0.65f,-0.65f);
-					else
-						projectile.GetComponent<Bullet>().dir = new Vector2(-0.65f,-0.65f);
-				}
-				else{
-					if (p.IsFacingRight())
+					if (p.IsFacingRight()) //right
 						projectile.GetComponent<Bullet>().dir = new Vector2(1,0);
-					else
+					else //left
 						projectile.GetComponent<Bullet>().dir = new Vector2(-1,0);
-				}
-			} 
 
 			Instantiate(projectile, transform.position, transform.rotation);
 		}

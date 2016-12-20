@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
 	float gravity;
 	float maxJumpVelocity;
 	float minJumpVelocity;
-	Vector3 velocity;
+	Vector2 velocity;
 	float velocityXSmoothing;
 
 	Controller2D controller;
@@ -39,13 +39,15 @@ public class Player : MonoBehaviour {
 	public float health;
 	float deathTimer = 5f;
 	bool dead;
-	float invincibleTime = 1f;
+	float invincibleTime = 1.5f;
 	float invincibleTimer;
+	SpriteRenderer sprite;
 
 	public static bool stopPlayer;
 
 	void Start() {
 		controller = GetComponent<Controller2D> ();
+		sprite = GetComponent<SpriteRenderer>();
 
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour {
 		//animator = GetComponent<Animator>();
 	}
 
-	void Update() {
+	void FixedUpdate(){
 		CalculateVelocity ();
 		HandleWallSliding ();
 
@@ -68,21 +70,33 @@ public class Player : MonoBehaviour {
 			}
 		}
 
-		//Animator
-		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
-		//animator.SetBool("grounded", controller.collisions.below);
-
 		//Direction
 		if (directionalInput.x < 0 && facingRight || directionalInput.x > 0 && !facingRight){
 			Flip();
 		}
+	}
+
+	void Update() {
+		//Sprite state
+		if (Time.time < invincibleTimer - invincibleTime*0.9f)
+			sprite.color = Color.red;
+		else
+			if (Time.time < invincibleTimer)
+				sprite.color = Color.gray;
+			else
+				sprite.color = Color.white;
+
+		//Animator
+		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
+		//animator.SetBool("grounded", controller.collisions.below);
 
 		//Damage
-		if (controller.collidesWithEnemy() && Time.time > invincibleTimer) {
+		if (!dead && controller.collidesWithEnemy() && Time.time > invincibleTimer && controller.getHitObject()) {
 			Enemy e = controller.getHitObject().GetComponent<Enemy>();
-			if (e)
+			if (e && !e.IsDead()){
 				TakeDamage(e.GetDamage());
-			invincibleTimer = Time.time + invincibleTime;
+				invincibleTimer = Time.time + invincibleTime;
+			}
 			//Knockback
 			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
 		}
@@ -195,5 +209,9 @@ public class Player : MonoBehaviour {
 
 	public bool isDead(){
 		return dead;
+	}
+
+	public Vector2 GetVelocity(){
+		return velocity;
 	}
 }

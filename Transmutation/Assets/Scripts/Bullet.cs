@@ -62,6 +62,13 @@ public class Bullet : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		//Damage
+		if (controller.collidesWithEnemy() && controller.getHitObject()) {
+			Enemy e = controller.getHitObject().GetComponent<Enemy>();
+			if (e && !e.IsDead()){
+				e.TakeDamage(damage);
+			}
+		}
 		//check collision
 		if (controller.HasCollisions())
 			Destroy (gameObject);

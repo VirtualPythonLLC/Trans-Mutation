@@ -27,28 +27,29 @@ public class Enemy : MonoBehaviour {
 
 	bool dead;
 	float deathTimer = 1f;
+
+	SpriteRenderer sprite;
+	Color color;
 	
 	void Start() {
 		controller = GetComponent<Controller2D> ();
 		animator = GetComponent<Animator>();
 		direction = Vector2.right;
 		initPos = transform.position;
+		sprite = GetComponent<SpriteRenderer>();
+		color = sprite.color;
 	}
 
-	void Update() {
+	void FixedUpdate(){
 		CalculateVelocity ();
 
 		if(!dead)
 			controller.Move (velocity * Time.deltaTime, direction);
-		
+
 		if (controller.collisions.above || controller.collisions.below) {
 			velocity.y = 0;
 		}
-		
-		//Animator
-		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
-		//animator.SetBool("grounded", controller.collisions.below);
-		
+
 		//Direction
 		if (!controller.collidesWithBullet() && !controller.collidesWithPlayer() && 
 			(controller.collisions.left || controller.collisions.right) ||
@@ -56,15 +57,26 @@ public class Enemy : MonoBehaviour {
 			Flip();
 			direction *= -1;
 		}
+	}
+	void Update() {
+
+		//Sprte state
+		sprite.color = color;
+
+		//Animator
+		//animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
+		//animator.SetBool("grounded", controller.collisions.below);
 
 		//Damage
-		if (controller.collidesWithBullet() && controller.getHitObject()) {
+		/*if (controller.collidesWithBullet() && controller.getHitObject()) {
 			Bullet b = controller.getHitObject().GetComponent<Bullet>();
-			if (b)
+			if (b){
 				TakeDamage(b.GetDamage());
+				sprite.color = Color.white;
+			}
 			//Knockback
 			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
-		}
+		}*/
 
 		//Death
 		if (health <= 0){
@@ -117,5 +129,10 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage(float d){
 		health -= d;
+		sprite.color = Color.white;
+	}
+
+	public bool IsDead(){
+		return dead;
 	}
 }
