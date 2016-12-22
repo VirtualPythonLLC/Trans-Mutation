@@ -7,7 +7,7 @@ using System.Collections;
  * Controller for switches (buttons, levers, etc), special treatment for collisions
 */
 
-public class ButtonController : RaycastController {
+public class SwitchController : RaycastController {
 		
 
 	public override void Start() {
@@ -51,5 +51,29 @@ public class ButtonController : RaycastController {
 		}
 
 		return false;
-	}	
+	}
+
+	public bool CanBeTriggered() {
+		float rayLength = skinWidth;
+
+		if (1 < skinWidth) {
+			rayLength = 2*skinWidth;
+		}
+
+		for (int i = 0; i < horizontalRayCount; i ++) {
+			//check if there's something inside
+			Vector2 rayOrigin = raycastOrigins.bottomLeft;
+			Debug.Log (rayOrigin.ToString());
+			rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, collider.bounds.size.x, collisionMask);
+
+			if (hit) {
+				if (hit.collider.tag == "Player"){
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }

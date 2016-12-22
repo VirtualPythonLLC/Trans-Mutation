@@ -56,6 +56,7 @@ public class Player : MonoBehaviour {
 	// Utils
 	float deathTimer = 5f;
 	bool dead;
+	bool grounded;
 	float invincibleTime = 1.5f;
 	float invincibleTimer;
 
@@ -73,12 +74,13 @@ public class Player : MonoBehaviour {
 		// animator = GetComponent<Animator>();
 	}
 
-	void FixedUpdate(){
+	void Update() {
 		CalculateVelocity ();
 		HandleWallSliding ();
 
 		controller.Move (velocity * Time.deltaTime, directionalInput);
 
+		grounded = controller.collisions.below;
 		if (controller.collisions.above || controller.collisions.below) {
 			if (controller.collisions.slidingDownMaxSlope) {
 				velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
@@ -91,9 +93,7 @@ public class Player : MonoBehaviour {
 		if (directionalInput.x < 0 && facingRight || directionalInput.x > 0 && !facingRight){
 			Flip();
 		}
-	}
 
-	void Update() {
 		// Sprite state
 		if (Time.time < invincibleTimer - invincibleTime*0.9f)
 			sprite.color = Color.red;
@@ -224,11 +224,19 @@ public class Player : MonoBehaviour {
 		health -= d;
 	}
 
-	public bool isDead(){
+	public bool IsDead(){
 		return dead;
+	}
+
+	public bool IsGrounded(){
+		return grounded;
 	}
 
 	public Vector2 GetVelocity(){
 		return velocity;
+	}
+
+	public PlayerWeapon GetWeapon(){
+		return firePoint.GetComponent<PlayerWeapon>();
 	}
 }

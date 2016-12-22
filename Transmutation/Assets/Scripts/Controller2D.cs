@@ -15,6 +15,7 @@ public class Controller2D : RaycastController {
 	public Vector2 playerInput;
 
 	Transform hitObject;
+	//Transform hitObject;
 
 
 	public override void Start() {
@@ -43,6 +44,7 @@ public class Controller2D : RaycastController {
 			collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
 		}
 
+		//CheckTriggers(moveAmount);
 		HorizontalCollisions (ref moveAmount);
 		if (moveAmount.y != 0) {
 			VerticalCollisions (ref moveAmount);
@@ -54,6 +56,9 @@ public class Controller2D : RaycastController {
 		if (standingOnPlatform) {
 			collisions.below = true;
 		}
+	}
+
+	void CheckTriggers(Vector2 moveAmount){
 	}
 
 	void HorizontalCollisions(ref Vector2 moveAmount) {
@@ -72,6 +77,19 @@ public class Controller2D : RaycastController {
 			Debug.DrawRay(rayOrigin, Vector2.right * directionX * 0.2f,Color.red);
 
 			if (hit) {
+
+				if (hit.collider.tag != "Untagged")
+					hitObject = hit.transform;
+				
+				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
+				if (hit.collider.tag == "Trigger")	{
+					collisions.trigger = true;
+					continue;
+				}
+					
+				
 				if (hit.distance == 0) {
 					continue;
 				}
@@ -104,12 +122,6 @@ public class Controller2D : RaycastController {
 					collisions.right = directionX == 1;
 				}
 					
-				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
-				if (hit.collider.tag == "Player")	collisions.player = true;
-				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
-
-				if (hit.collider.tag != "Untagged")
-					hitObject = hit.transform;
 			}
 		}
 	}
@@ -127,6 +139,18 @@ public class Controller2D : RaycastController {
 			Debug.DrawRay(rayOrigin, Vector2.up * directionY * 0.2f,Color.red);
 
 			if (hit) {
+
+				if (hit.collider.tag != "Untagged")
+					hitObject = hit.transform;
+
+				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
+				if (hit.collider.tag == "Trigger")	{
+					collisions.trigger = true;
+					continue;
+				}
+				
 				if (hit.collider.tag == "Through" && transform.tag == "Player") {
 					if (directionY == 1 || hit.distance == 0) {
 						continue;
@@ -150,13 +174,6 @@ public class Controller2D : RaycastController {
 
 				collisions.below = directionY == -1;
 				collisions.above = directionY == 1;
-
-				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
-				if (hit.collider.tag == "Player")	collisions.player = true;
-				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
-
-				if (hit.collider.tag != "Untagged")
-					hitObject = hit.transform;
 			}
 		}
 
@@ -257,6 +274,10 @@ public class Controller2D : RaycastController {
 		return collisions.bullet;
 	}
 
+	public bool collidesWithTrigger(){
+		return collisions.trigger;
+	}
+
 	public Transform getHitObject(){
 		return hitObject;
 	}
@@ -282,6 +303,7 @@ public class Controller2D : RaycastController {
 		public bool enemy;
 		public bool player;
 		public bool bullet;
+		public bool trigger;
 
 		public void Reset() {
 			above = below = false;
@@ -297,6 +319,7 @@ public class Controller2D : RaycastController {
 			enemy = false;
 			player = false;
 			bullet = false;
+			trigger = false;
 		}
 	}
 

@@ -10,6 +10,7 @@ using System.Collections;
 public class RaycastController : MonoBehaviour {
 
 	public LayerMask collisionMask;
+	//public LayerMask triggerMask;
 	
 	public const float skinWidth = .0015f;
 	const float dstBetweenRays = .25f;
@@ -60,7 +61,7 @@ public class RaycastController : MonoBehaviour {
 		horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
 		verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
 	}
-	
+		
 	public struct RaycastOrigins {
 		public Vector2 topLeft, topRight;
 		public Vector2 bottomLeft, bottomRight;

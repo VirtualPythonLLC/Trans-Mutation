@@ -52,8 +52,8 @@ public class Enemy : MonoBehaviour {
 		sprite = GetComponent<SpriteRenderer>();
 		color = sprite.color;
 	}
-
-	void FixedUpdate(){
+		
+	void Update() {
 		CalculateVelocity ();
 
 		if(!dead)
@@ -70,10 +70,8 @@ public class Enemy : MonoBehaviour {
 			Flip();
 			direction *= -1;
 		}
-	}
-	void Update() {
 
-		//Sprte state
+		//Sprite state
 		sprite.color = color;
 
 		// Animator

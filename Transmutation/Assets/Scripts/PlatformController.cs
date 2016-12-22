@@ -37,7 +37,6 @@ public class PlatformController : RaycastController {
 	}
 
 	void Update () {
-
 		UpdateRaycastOrigins ();
 
 		Vector3 velocity = CalculatePlatformMovement();
@@ -55,7 +54,6 @@ public class PlatformController : RaycastController {
 	}
 	
 	Vector3 CalculatePlatformMovement() {
-
 		if (Time.time < nextMoveTime) {
 			return Vector3.zero;
 		}
