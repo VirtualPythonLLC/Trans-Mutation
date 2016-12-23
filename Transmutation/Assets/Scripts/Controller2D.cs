@@ -5,6 +5,7 @@ using System.Collections;
  * Controller2D
  * 
  * Controller for Player,Enemies and Bullets, handles movement and collisions
+ * NOTE: Be careful about the size and position of Trigger colliders (cannot touch ground)
 */
 public class Controller2D : RaycastController {
 
@@ -15,7 +16,6 @@ public class Controller2D : RaycastController {
 	public Vector2 playerInput;
 
 	Transform hitObject;
-	//Transform hitObject;
 
 
 	public override void Start() {
@@ -58,9 +58,6 @@ public class Controller2D : RaycastController {
 		}
 	}
 
-	void CheckTriggers(Vector2 moveAmount){
-	}
-
 	void HorizontalCollisions(ref Vector2 moveAmount) {
 		float directionX = collisions.faceDir;
 		float rayLength = Mathf.Abs (moveAmount.x) + skinWidth;
@@ -82,9 +79,9 @@ public class Controller2D : RaycastController {
 					hitObject = hit.transform;
 				
 				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
-				if (hit.collider.tag == "Player")	collisions.player = true;
-				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
-				if (hit.collider.tag == "Trigger")	{
+				if (hit.collider.tag == "Player" )	collisions.player = true;
+				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
+				if (hit.collider.tag == "Trigger" && transform.tag == "Player")	{
 					collisions.trigger = true;
 					continue;
 				}
@@ -143,10 +140,10 @@ public class Controller2D : RaycastController {
 				if (hit.collider.tag != "Untagged")
 					hitObject = hit.transform;
 
-				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
-				if (hit.collider.tag == "Player")	collisions.player = true;
-				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
-				if (hit.collider.tag == "Trigger")	{
+				if (hit.collider.tag == "Enemy" && transform.tag == "Player")	collisions.enemy = true;
+				if (hit.collider.tag == "Player" && transform.tag == "Enemy")	collisions.player = true;
+				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
+				if (hit.collider.tag == "Trigger" && transform.tag == "Player")	{
 					collisions.trigger = true;
 					continue;
 				}

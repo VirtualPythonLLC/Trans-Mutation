@@ -79,15 +79,12 @@ public class Enemy : MonoBehaviour {
 		//animator.SetBool("grounded", controller.collisions.below);
 
 		// Damage
-		/*if (controller.collidesWithBullet() && controller.getHitObject()) {
-			Bullet b = controller.getHitObject().GetComponent<Bullet>();
-			if (b){
-				TakeDamage(b.GetDamage());
-				sprite.color = Color.white;
+		if (controller.collidesWithPlayer() && controller.getHitObject()) {
+			Player p = controller.getHitObject().GetComponent<Player>();
+			if (p){
+				p.TakeDamage(damage);
 			}
-			//Knockback
-			//controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
-		}*/
+		}
 
 		// Death
 		if (health <= 0){

@@ -10,7 +10,8 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour {
 
 	Player player;
-	bool pressed;
+	bool switchPressed;
+	bool selectPressed;
 
 	void Start (){
 		player = GetComponent<Player> ();
@@ -31,18 +32,25 @@ public class PlayerInput : MonoBehaviour {
 			player.OnJumpInputUp ();
 		}
 		if (Input.GetAxisRaw("Fire1") > 0){
-			player.GetWeapon().Fire(vInput, hInput);
+			player.GetPlayerWeapon().Fire(vInput, hInput);
 		}
-		if (vInput > 0 && !pressed && player.IsGrounded()){
+		if (Input.GetAxisRaw("Select") > 0 && !selectPressed){
+			player.GetPlayerWeapon().ChangeWeapon();
+			selectPressed = true;
+		}
+		if (Input.GetAxisRaw("Select") == 0){
+			selectPressed = false;
+		}
+		if (vInput > 0 && !switchPressed && player.IsGrounded()){
 			if (player.GetController().collidesWithTrigger() && player.GetController().getHitObject()){
 				Switch s = player.GetController().getHitObject().GetComponent<Switch>();
 				if (s){
 					s.Press();
-					pressed = true;
+					switchPressed = true;
 				}
 			}
 		}
 		if (vInput == 0) //Only can re-press a button if player releases the 'use' input
-			pressed = false;
+			switchPressed = false;
 	}
 }

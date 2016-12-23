@@ -108,11 +108,10 @@ public class Player : MonoBehaviour {
 		// animator.SetBool("grounded", controller.collisions.below);
 
 		//Damage
-		if (!dead && controller.collidesWithEnemy() && Time.time > invincibleTimer && controller.getHitObject()) {
+		if (controller.collidesWithEnemy() && controller.getHitObject()) {
 			Enemy e = controller.getHitObject().GetComponent<Enemy>();
 			if (e && !e.IsDead()){
 				TakeDamage(e.GetDamage());
-				invincibleTimer = Time.time + invincibleTime;
 			}
 			// Knockback
 			// controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
@@ -197,7 +196,8 @@ public class Player : MonoBehaviour {
 	void CalculateVelocity() {
 		float targetVelocityX = directionalInput.x * moveSpeed;
 		if (controller.collisions.below) //disable air control
-			velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
+			velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
+			//velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
 		velocity.y += gravity * Time.deltaTime;
 	}
 
@@ -221,7 +221,10 @@ public class Player : MonoBehaviour {
 	}
 
 	public void TakeDamage(float d){
-		health -= d;
+		if (!dead && Time.time > invincibleTimer){
+			health -= d;
+			invincibleTimer = Time.time + invincibleTime;
+		}
 	}
 
 	public bool IsDead(){
@@ -236,7 +239,7 @@ public class Player : MonoBehaviour {
 		return velocity;
 	}
 
-	public PlayerWeapon GetWeapon(){
+	public PlayerWeapon GetPlayerWeapon(){
 		return firePoint.GetComponent<PlayerWeapon>();
 	}
 }
