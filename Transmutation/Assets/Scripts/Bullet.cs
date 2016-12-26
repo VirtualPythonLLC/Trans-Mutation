@@ -9,13 +9,15 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 
 	// Stats
-	public float range = 10f;
-	public float damage = 5f;
-	public float speed = 0.07f;
-	public float gravity = 0.01f;
+	public float range;
+	public float damage;
+	public float speed;
+	public float gravity;
 
 	// Utils
 	public float aliveTime;
+	public bool attracts; //Hotaru's hands
+	public bool repels; //Hotaru's hands
 	Vector2 origin;
 
 	// Physics
@@ -74,6 +76,15 @@ public class Bullet : MonoBehaviour {
 			Enemy e = controller.getHitObject().GetComponent<Enemy>();
 			if (e && !e.IsDead()){
 				e.TakeDamage(damage);
+				if (attracts){
+					Debug.Log((-(velocity * Time.deltaTime * 3)).x.ToString());
+					Destroy (gameObject);
+					e.GetController().Move(-(velocity * Time.deltaTime * 3), false);
+				}
+				if (repels){
+					Debug.Log(((velocity * Time.deltaTime * 3)).x.ToString());
+					e.GetController().Move(velocity * Time.deltaTime * 3, false);
+				}
 			}
 		}
 

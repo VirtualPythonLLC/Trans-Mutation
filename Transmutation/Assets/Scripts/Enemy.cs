@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour {
 
 	//IA
 	Vector2 initPos;
+	Vector2 destPos;
+	float epsilon = 0.1f;
 	public float movementRangeX;
 	public float movementRangeY;
 
@@ -65,8 +67,8 @@ public class Enemy : MonoBehaviour {
 
 		// Direction
 		if (!controller.collidesWithBullet() && !controller.collidesWithPlayer() && 
-			(controller.collisions.left || controller.collisions.right) ||
-			(movementRangeX != 0 && (transform.position.x >= initPos.x + movementRangeX || transform.position.x <= initPos.x - movementRangeX))){
+			(controller.collisions.left || controller.collisions.right) || (movementRangeX != 0 && 
+				(facingRight && transform.position.x > initPos.x + movementRangeX || !facingRight && transform.position.x < initPos.x - movementRangeX))){
 			Flip();
 			direction *= -1;
 		}

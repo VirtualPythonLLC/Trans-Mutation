@@ -49,7 +49,6 @@ public class Controller2D : RaycastController {
 		if (moveAmount.y != 0) {
 			VerticalCollisions (ref moveAmount);
 		}
-
 		transform.Translate (moveAmount, null);
 		// transform.position = new Vector2(transform.position.x + moveAmount.x,transform.position.y + moveAmount.y);
 
@@ -140,8 +139,8 @@ public class Controller2D : RaycastController {
 				if (hit.collider.tag != "Untagged")
 					hitObject = hit.transform;
 
-				if (hit.collider.tag == "Enemy" && transform.tag == "Player")	collisions.enemy = true;
-				if (hit.collider.tag == "Player" && transform.tag == "Enemy")	collisions.player = true;
+				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
 				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
 				if (hit.collider.tag == "Trigger" && transform.tag == "Player")	{
 					collisions.trigger = true;
