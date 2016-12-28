@@ -77,15 +77,20 @@ public class Bullet : MonoBehaviour {
 			if (e && !e.IsDead()){
 				e.TakeDamage(damage);
 				if (attracts){
-					Debug.Log((-(velocity * Time.deltaTime * 3)).x.ToString());
 					Destroy (gameObject);
-					e.GetController().Move(-(velocity * Time.deltaTime * 3), false);
+					e.GetController().Move(-(velocity * Time.deltaTime * 0.1f), false);
 				}
 				if (repels){
-					Debug.Log(((velocity * Time.deltaTime * 3)).x.ToString());
-					e.GetController().Move(velocity * Time.deltaTime * 3, false);
+					e.GetController().Move(velocity * Time.deltaTime * 0.1f, false);
 				}
 			}
+		}
+
+		if (controller.collidesWithTrigger() && controller.getHitObject()) {
+			Switch s = controller.getHitObject().GetComponent<Switch>();
+			if (s && !s.IsLevelExit()){
+				s.Press();
+			} 
 		}
 
 		// Destroy on collision or if it's out of range

@@ -80,7 +80,7 @@ public class Controller2D : RaycastController {
 				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
 				if (hit.collider.tag == "Player" )	collisions.player = true;
 				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
-				if (hit.collider.tag == "Trigger" && transform.tag == "Player")	{
+				if (hit.collider.tag == "Trigger")	{
 					collisions.trigger = true;
 					continue;
 				}
@@ -142,7 +142,7 @@ public class Controller2D : RaycastController {
 				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
 				if (hit.collider.tag == "Player")	collisions.player = true;
 				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
-				if (hit.collider.tag == "Trigger" && transform.tag == "Player")	{
+				if (hit.collider.tag == "Trigger")	{
 					collisions.trigger = true;
 					continue;
 				}
@@ -255,7 +255,8 @@ public class Controller2D : RaycastController {
 	}
 
 	public bool HasCollisions(){
-		return (collisions.above || collisions.below || collisions.left || collisions.right);
+		return (collisions.above || collisions.below || collisions.left || collisions.right || collisions.enemy || collisions.bullet 
+			|| collisions.player || collisions.trigger);
 	}
 
 	public bool collidesWithEnemy(){

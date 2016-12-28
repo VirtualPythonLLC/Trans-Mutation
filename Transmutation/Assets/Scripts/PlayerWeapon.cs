@@ -10,6 +10,7 @@ public class PlayerWeapon : MonoBehaviour {
 
 	public GameObject[] projectiles;
 	public float shootTimer = 0.15f;
+	//public bool drawDirection;
 	float diagonalAngle = 0.65f;
 	int maxWeapons = 3;
 	int weapon;
@@ -19,6 +20,10 @@ public class PlayerWeapon : MonoBehaviour {
 	void Awake () {
 		weapon = 0;
 		nextProjectile = 0f;
+	}
+
+	void Update (){
+		//Debug.DrawRay(transform.position, projectiles[weapon].GetComponent<Bullet>().dir * 0.2f,Color.cyan);
 	}
 
 	public void Fire(float vInput, float hInput){

@@ -138,8 +138,10 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void TakeDamage(float d){
-		health -= d;
-		sprite.color = Color.white;
+		if (d > 0){
+			health -= d;
+			sprite.color = Color.white;
+		}
 	}
 
 	public bool IsDead(){

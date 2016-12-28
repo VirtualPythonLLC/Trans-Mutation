@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 /*
- * LevelSwitch
+ * Switch
  * 
  * Script for switches (buttons, levers, level exits,  etc) logic
 */
@@ -31,4 +31,9 @@ public class Switch : MonoBehaviour {
 			}
 		}
 	}
+
+	public bool IsLevelExit(){
+		return levelExit;
+	}
+		
 }
