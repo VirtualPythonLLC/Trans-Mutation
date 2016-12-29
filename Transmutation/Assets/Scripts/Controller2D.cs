@@ -78,8 +78,8 @@ public class Controller2D : RaycastController {
 					hitObject = hit.transform;
 				
 				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
-				if (hit.collider.tag == "Player" )	collisions.player = true;
-				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
+				if (hit.collider.tag == "Player")	collisions.player = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
 				if (hit.collider.tag == "Trigger")	{
 					collisions.trigger = true;
 					continue;
@@ -141,7 +141,7 @@ public class Controller2D : RaycastController {
 
 				if (hit.collider.tag == "Enemy")	collisions.enemy = true;
 				if (hit.collider.tag == "Player")	collisions.player = true;
-				if (hit.collider.tag == "Bullet" && transform.tag == "Enemy")	collisions.bullet = true;
+				if (hit.collider.tag == "Bullet")	collisions.bullet = true;
 				if (hit.collider.tag == "Trigger")	{
 					collisions.trigger = true;
 					continue;

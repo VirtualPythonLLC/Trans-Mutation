@@ -27,10 +27,9 @@ public class PlayerWeapon : MonoBehaviour {
 	}
 
 	public void Fire(float vInput, float hInput){
-		Player p = transform.root.GetComponent<Player>();
-		Bullet proj = projectiles[weapon].GetComponent<Bullet>();
-
 		if (Time.time > nextProjectile){
+			Player p = transform.root.GetComponent<Player>();
+			Bullet proj = projectiles[weapon].GetComponent<Bullet>();
 			nextProjectile = Time.time + shootTimer;
 
 			//Direction

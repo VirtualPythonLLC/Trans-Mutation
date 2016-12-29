@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour {
 	public float damage;
 	public float speed;
 	public float gravity;
+	public bool enemyBullet;
 
 	// Utils
 	public float aliveTime;
@@ -72,27 +73,38 @@ public class Bullet : MonoBehaviour {
 		velocity.y += gravity * Time.deltaTime;
 
 		// Inflict damage
-		if (controller.collidesWithEnemy() && controller.getHitObject()) {
-			Enemy e = controller.getHitObject().GetComponent<Enemy>();
-			if (e && !e.IsDead()){
-				e.TakeDamage(damage);
-				if (attracts){
-					Destroy (gameObject);
-					e.GetController().Move(-(velocity * Time.deltaTime * 0.1f), false);
-				}
-				if (repels){
-					e.GetController().Move(velocity * Time.deltaTime * 0.1f, false);
+		if (enemyBullet){
+			if (controller.collidesWithPlayer() && controller.getHitObject()) {
+				Player p = controller.getHitObject().GetComponent<Player>();
+				if (p && !p.IsDead()){
+					p.TakeDamage(damage);
 				}
 			}
-		}
 
-		if (controller.collidesWithTrigger() && controller.getHitObject()) {
-			Switch s = controller.getHitObject().GetComponent<Switch>();
-			if (s && !s.IsLevelExit()){
-				s.Press();
-			} 
 		}
+		else{
+			if (controller.collidesWithEnemy() && controller.getHitObject()) {
+				Enemy e = controller.getHitObject().GetComponent<Enemy>();
+				if (e && !e.IsDead()){
+					e.TakeDamage(damage);
+					if (attracts){
+						Destroy (gameObject);
+						e.GetController().Move(-(velocity * Time.deltaTime * 0.1f), false);
+					}
+					if (repels){
+						e.GetController().Move(velocity * Time.deltaTime * 0.1f, false);
+					}
+				}
+			}
 
+			if (controller.collidesWithTrigger() && controller.getHitObject()) {
+				Switch s = controller.getHitObject().GetComponent<Switch>();
+				if (s && !s.IsLevelExit()){
+					s.Press();
+				} 
+			}
+		}
+			
 		// Destroy on collision or if it's out of range
 		if (controller.HasCollisions() || Mathf.Abs(transform.position.x - origin.x) > range || Mathf.Abs(transform.position.y - origin.y) > range)
 			Destroy (gameObject);
@@ -105,6 +117,10 @@ public class Bullet : MonoBehaviour {
 
 	public float GetDamage(){
 		return damage;
+	}
+
+	public bool IsEnemyBullet(){
+		return enemyBullet;
 	}
 	
 }

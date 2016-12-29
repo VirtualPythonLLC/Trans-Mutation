@@ -117,6 +117,16 @@ public class Player : MonoBehaviour {
 			// controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
 		}
 
+		if (controller.collidesWithBullet() && controller.getHitObject()) {
+			Bullet b = controller.getHitObject().GetComponent<Bullet>();
+			if (b && b.IsEnemyBullet()){
+				TakeDamage(b.GetDamage());
+			}
+			// Knockback
+			// controller.Move (velocity * Time.deltaTime*3, new Vector2(-1,1));
+		}
+
+
 		// Death
 		if (health <= 0){
 			Debug.Log ("Game over");
