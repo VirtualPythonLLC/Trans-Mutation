@@ -52,6 +52,12 @@ public class Player : MonoBehaviour {
 
 	// Stats
 	public float health;
+	public bool isNashiki;
+	public static float rageMeter;
+	float rageTime = 6f;
+	float rageTimer;
+	public static bool rageOn;
+	float rageMeterCap = 10f; 
 
 	// Utils
 	float deathTimer = 5f;
@@ -96,12 +102,15 @@ public class Player : MonoBehaviour {
 
 		// Sprite state
 		if (Time.time < invincibleTimer - invincibleTime*0.9f)
-			sprite.color = Color.red;
+			sprite.color = Color.red; //damaged
 		else
 			if (Time.time < invincibleTimer)
-				sprite.color = Color.gray;
+				sprite.color = Color.gray; //invinsible
 			else
-				sprite.color = Color.white;
+				if (rageOn)
+					sprite.color = Color.yellow; //enraged
+				else
+					sprite.color = Color.white; //normal
 
 		// Animator
 		// animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
@@ -129,10 +138,19 @@ public class Player : MonoBehaviour {
 
 		// Death
 		if (health <= 0){
-			Debug.Log ("Game over");
-			// animator.SetBool("dead", true);
-			dead = true;
-			Destroy(gameObject, deathTimer);
+			die();
+		}
+
+		//Rage mode
+		if (isNashiki){
+			if (!rageOn && rageMeter > rageMeterCap){
+				rageTimer = Time.time + rageTime;
+				rageOn = true;
+			}
+			if (rageOn && Time.time > rageTimer){
+				rageOn = false;
+				rageMeter = 0; //reset
+			}
 		}
 	}
 
@@ -211,8 +229,7 @@ public class Player : MonoBehaviour {
 		velocity.y += gravity * Time.deltaTime;
 	}
 
-	public void Flip()
-	{
+	public void Flip() {
 		// Switch the way the player is labelled as facing.
 		facingRight = !facingRight;
 		
@@ -235,6 +252,13 @@ public class Player : MonoBehaviour {
 			health -= d;
 			invincibleTimer = Time.time + invincibleTime;
 		}
+	}
+
+	void die(){
+		Debug.Log ("Game over");
+		// animator.SetBool("dead", true);
+		dead = true;
+		Destroy(gameObject, deathTimer);
 	}
 
 	public bool IsDead(){

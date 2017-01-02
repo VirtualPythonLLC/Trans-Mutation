@@ -139,8 +139,12 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage(float d){
 		if (d > 0){
+			if (Player.rageOn){ //if player is enraged, damage is increased by 15%
+				d += d*0.15f;
+			}
 			health -= d;
 			sprite.color = Color.white;
+			Player.rageMeter += 1;
 		}
 	}
 

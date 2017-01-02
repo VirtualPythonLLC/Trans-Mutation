@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 /*
  * Switch
  * 
- * Script for switches (buttons, levers, level exits,  etc) logic
+ * Script for switches/triggers (buttons, levers, level exits,  etc) logic
 */
 public class Switch : MonoBehaviour {
 
